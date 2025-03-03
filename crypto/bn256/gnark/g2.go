@@ -1,6 +1,8 @@
 package bn256
 
 import (
+	"math/big"
+
 	"github.com/consensys/gnark-crypto/ecc/bn254"
 )
 
@@ -30,9 +32,26 @@ func (g *G2) Unmarshal(buf []byte) (int, error) {
 	return g.inner.SetBytes(buf)
 }
 
-// Marshal serializes the point into a byte slice.
+// RawBytes serializes the point into a byte slice.
 //
 // Note: The point is serialized as uncompressed.
-func (g *G2) Marshal() []byte {
-	return g.inner.Marshal()
+func (p *G2) RawBytes() []byte {
+	return p.inner.Marshal()
+}
+
+// Bytes serializes the point into a byte slice. Either compressed or uncompressed.
+func (p *G2) Bytes() []byte {
+	b := p.inner.Bytes()
+	return b[:]
+}
+
+// Add adds `a` and `b` together, storing the result in `g`
+func (g *G2) Add(a, b *G2) {
+	g.inner.Add(&a.inner, &b.inner)
+}
+
+// ScalarMult computes the scalar multiplication between `a` and
+// `scalar`, storing the result in `g`
+func (g *G2) ScalarMult(a *G2, scalar *big.Int) {
+	g.inner.ScalarMultiplication(&a.inner, scalar)
 }

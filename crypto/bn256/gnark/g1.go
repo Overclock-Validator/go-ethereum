@@ -43,9 +43,15 @@ func (g *G1) Unmarshal(buf []byte) (int, error) {
 	return g.inner.SetBytes(buf)
 }
 
-// Marshal serializes the point into a byte slice.
+// RawBytes serializes the point into a byte slice.
 //
 // Note: The point is serialized as uncompressed.
-func (p *G1) Marshal() []byte {
+func (p *G1) RawBytes() []byte {
 	return p.inner.Marshal()
+}
+
+// Bytes serializes the point into a byte slice. Either compressed or uncompressed.
+func (p *G1) Bytes() []byte {
+	b := p.inner.Bytes()
+	return b[:]
 }

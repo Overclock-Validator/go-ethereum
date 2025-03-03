@@ -87,7 +87,7 @@ func fuzzAdd(data []byte) int {
 		panic("add mismatch: cloudflare/google")
 	}
 
-	if !bytes.Equal(rc.Marshal(), rs.Marshal()) {
+	if !bytes.Equal(rc.Marshal(), rs.RawBytes()) {
 		panic("add mismatch: cloudflare/gnark")
 	}
 	return 1
@@ -127,7 +127,7 @@ func fuzzMul(data []byte) int {
 	if !bytes.Equal(rc.Marshal(), rg.Marshal()) {
 		panic("scalar mul mismatch: cloudflare/google")
 	}
-	if !bytes.Equal(rc.Marshal(), rs.Marshal()) {
+	if !bytes.Equal(rc.Marshal(), rs.RawBytes()) {
 		panic("scalar mul mismatch: cloudflare/gnark")
 	}
 	return 1
